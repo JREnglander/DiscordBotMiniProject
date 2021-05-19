@@ -16,3 +16,5 @@ bot = commands.Bot(command_prefix='!')
 @bot.command(name='boop')
 async def boop(ctx):
     await ctx.send('boop')
+
+bot.run(BOTTOKEN)
