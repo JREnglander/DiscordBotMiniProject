@@ -2,6 +2,7 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
+import random
 
 
 
@@ -18,26 +19,18 @@ async def on_ready():
     print(f'{bot.user.name} is connected to Discord')
 
 # bot command to boop users
-@bot.command(name='boop')
+@bot.command(name='boop', help='boops you')
 async def boop(ctx):
     await ctx.send('boop')
 
-@bot.event
-async def on_message(message):
-    # prevent recursive call loop
-    if message.author == bot.user:
-        return
-    
-    lowerCase = message.content.lower()
-
-    if 'cake' in lowerCase:
-        await message.channel.send('the cake is a lie')
-
-
-# @bot.event
-# async def on_error(event):
-#     if event == commands.errors.CommandNotFound:
-#         pass
+# this command has converters in the params to make sure the parameters are the proper type
+@bot.command(name='roll_dice', help='rolls an n number of n-sided dice')
+async def roll(ctx, number_of_dice: int, number_of_sides: int):
+    dice = [
+        str(random.choice(range(1,number_of_sides+1)))
+        for _ in range(number_of_dice)
+    ]
+    await ctx.send(', '.join(dice))
 
 
 bot.run(BOTTOKEN)
