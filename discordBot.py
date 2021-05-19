@@ -22,6 +22,18 @@ async def on_ready():
 async def boop(ctx):
     await ctx.send('boop')
 
+@bot.event
+async def on_message(message):
+    # prevent recursive call loop
+    if message.author == bot.user:
+        return
+    
+    lowerCase = message.content.lower()
+
+    if 'cake' in lowerCase:
+        await message.channel.send('the cake is a lie')
+
+
 # @bot.event
 # async def on_error(event):
 #     if event == commands.errors.CommandNotFound:
