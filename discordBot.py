@@ -5,7 +5,6 @@ from discord.ext import commands
 import random
 
 
-
 # get the environmental variable for the discord user
 load_dotenv()  # load from the .en folder all thje environmental variables
 BOTTOKEN = os.getenv('DISCORD_TOKEN')
@@ -24,7 +23,7 @@ async def boop(ctx):
     await ctx.send('boop')
 
 # this command has converters in the params to make sure the parameters are the proper type
-@bot.command(name='roll_dice', help='rolls an n number of n-sided dice')
+@bot.command(name='roll_dice', help='rolls an given number of given sided dice')
 async def roll(ctx, number_of_dice: int, number_of_sides: int):
     dice = [
         str(random.choice(range(1,number_of_sides+1)))
@@ -32,5 +31,21 @@ async def roll(ctx, number_of_dice: int, number_of_sides: int):
     ]
     await ctx.send(', '.join(dice))
 
+@bot.event
+async def on_message(message):
+    # prevent bot from responding to itself
+    if message.author == bot.user:
+        return
+
+    # if the message is a bot command (starts with a !) then process the command rather than checking if cake is in the name
+    # this also allows for more easter eggs because 
+    if message.content[0] == '!':
+        await bot.process_commands(message)
+    elif 'cake' in message.content:
+        await message.channel.send('the cake is a lie!')
+    elif 'boop' in message.content:
+        await message.channel.send('boop')
+    
+    
 
 bot.run(BOTTOKEN)
