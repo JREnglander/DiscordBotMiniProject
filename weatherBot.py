@@ -15,12 +15,17 @@ bot = commands.Bot(command_prefix='!')
 async def on_ready():
     print(f'{bot.user.name} is connected to Discord')
 
-@bot.command(name='weather', help='gets the weather for a given location')
+@bot.command(name='weather', help='gets the weather for a given location for place names with spaces wrap the name in quotes')
 async def weather(ctx,city ,state='',country=''):
     wr = weatherRequester.weatherRequester()
-    print(city)
-    currWeather = wr.requestWeather(city,state,country)
-    weatherResponse = f'Currently, its {currWeather[0]} degrees outside with {currWeather[1]}% humidity and {currWeather[2]}'
+    currWeather, responseCode = wr.requestWeather(city,state,country)
+    weatherResponse = ''
+    if responseCode == 200:
+        weatherResponse = f'Currently, its {currWeather[0]} degrees in {city} with {currWeather[1]}% humidity and {currWeather[2]}'
+    elif responseCode == 404:
+        weatherResponse = currWeather
+    else:
+        weatherResponse = currWeather
     await ctx.send(weatherResponse)
 
 

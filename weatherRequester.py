@@ -26,7 +26,6 @@ class weatherRequester:
         
         # parse the response into python dict
         parsedRequest = json.loads(request.text)
-        print(parsedRequest)
         responseCode = parsedRequest['cod']
 
         if responseCode == 200:
@@ -39,11 +38,11 @@ class weatherRequester:
             weatherdata = parsedRequest['weather'][0]
             weatherDescription = weatherdata['description']
             
-            return [temp, hum, weatherDescription]
+            return [temp, hum, weatherDescription], responseCode
         elif responseCode == 404:
-            return parsedRequest['message']
+            return 'city not found',responseCode
         else:
-            return 'API server error has occured'
+            return 'internal server error',responseCode
     
     def convertTempKToF(self, kelvins):
         celsius = kelvins - 273.15
