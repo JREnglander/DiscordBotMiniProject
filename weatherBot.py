@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from discord.ext import commands, tasks
+import weatherRequester
 
 
 # get the environmental variable for the discord user
@@ -13,6 +14,14 @@ bot = commands.Bot(command_prefix='!')
 @bot.event
 async def on_ready():
     print(f'{bot.user.name} is connected to Discord')
+
+@bot.command(name='weather', help='gets the weather for a given location')
+async def weather(ctx, city='',state='',country=''):
+    wr = weatherRequester()
+    currTemp, currHum, currDesc = wr.requestWeather(city,state,country)
+    weatherResponse = f'Currently, its {currTemp} degrees outside with {currHum}% humidity and {currDesc}'
+    await ctx.send(weatherResponse)
+
 
 # TODO: Figure out how to access and make HTTP requests to Weather.com API (Will probably put in a separate class)
 # TODO: Figure out how to use tasks to make timely alerts
