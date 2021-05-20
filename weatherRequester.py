@@ -26,17 +26,24 @@ class weatherRequester:
         
         # parse the response into python dict
         parsedRequest = json.loads(request.text)
+        print(parsedRequest)
+        responseCode = parsedRequest['cod']
 
-        # temperature
-        tempAndHum = parsedRequest['main']
-        temp = self.convertTempKToF(tempAndHum['temp'])
-        # humidity
-        hum = tempAndHum['humidity']
-        # weather description
-        weatherdata = parsedRequest['weather'][0]
-        weatherDescription = weatherdata['description']
-        
-        return temp, hum, weatherDescription
+        if responseCode == 200:
+            # temperature
+            tempAndHum = parsedRequest['main']
+            temp = self.convertTempKToF(tempAndHum['temp'])
+            # humidity
+            hum = tempAndHum['humidity']
+            # weather description
+            weatherdata = parsedRequest['weather'][0]
+            weatherDescription = weatherdata['description']
+            
+            return [temp, hum, weatherDescription]
+        elif responseCode == 404:
+            return parsedRequest['message']
+        else:
+            return 'API server error has occured'
     
     def convertTempKToF(self, kelvins):
         celsius = kelvins - 273.15

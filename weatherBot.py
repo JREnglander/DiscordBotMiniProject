@@ -16,10 +16,11 @@ async def on_ready():
     print(f'{bot.user.name} is connected to Discord')
 
 @bot.command(name='weather', help='gets the weather for a given location')
-async def weather(ctx, city='',state='',country=''):
-    wr = weatherRequester()
-    currTemp, currHum, currDesc = wr.requestWeather(city,state,country)
-    weatherResponse = f'Currently, its {currTemp} degrees outside with {currHum}% humidity and {currDesc}'
+async def weather(ctx,city ,state='',country=''):
+    wr = weatherRequester.weatherRequester()
+    print(city)
+    currWeather = wr.requestWeather(city,state,country)
+    weatherResponse = f'Currently, its {currWeather[0]} degrees outside with {currWeather[1]}% humidity and {currWeather[2]}'
     await ctx.send(weatherResponse)
 
 
