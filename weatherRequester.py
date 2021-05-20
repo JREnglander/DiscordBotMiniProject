@@ -52,8 +52,8 @@ class weatherRequester:
 if __name__ == "__main__":
     # TESTING 
     wr = weatherRequester()
-    city = 'Falls Church'
-    # state = 'US-DC'
-    # country = 'US'
+    city = 'London'
+    # state = 'GO'
+    # country = 'LA'
     wr.requestWeather(city)
     
