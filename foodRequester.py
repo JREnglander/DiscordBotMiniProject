@@ -8,6 +8,8 @@ class foodRequester(Requester):
     def __init__(self) -> None:
         # get all the api keys
         load_dotenv()
-        # for noew make separate class attributes per api
+        # for now make separate class attributes per api
         self.edamamKey = os.getenv('EDAMAM_SEARCH_API_KEY') 
         self.edamamID = os.getenv('EDAMAM_SEARCH_APP_ID')
+
+        # 
