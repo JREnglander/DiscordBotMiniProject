@@ -1,13 +1,14 @@
 # base request class to use to simplify code
-from typing_extensions import ParamSpec
 import requests
 import json
+from dotenv import load_dotenv
+import os
 
 class Requester:
     def __init__(self) -> None:
         pass
     
-    def makeGETRequest(apiBaseURL, headers=None, params=None, codeDictKey=0):
+    def makeGETRequest(apiBaseURL, headers=None, params=None, codeDictKey=''):
         """
         apiBaseURL: base url to make get requests
         headers: values to add to header of request
@@ -48,3 +49,19 @@ class noParamsRequestError(Exception):
     Raised when no params are given for a request
     """
     pass
+
+if __name__ == "__main__":
+    # testing using weather API
+    req = Requester()
+    load_dotenv()
+    baseURL = os.getenv('WEATHER_URL')
+    apiKey = os.getenv('WEATHER_API_KEY')
+    city = 'London'
+    
+    params = {
+        'apikey':apiKey,
+        'city' : city
+    }
+    response =req.makeGETRequest(baseURL,params,'cod')
+
+    
