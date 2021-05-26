@@ -12,4 +12,11 @@ class foodRequester(Requester):
         self.edamamKey = os.getenv('EDAMAM_SEARCH_API_KEY') 
         self.edamamID = os.getenv('EDAMAM_SEARCH_APP_ID')
 
-        # 
+    # get recipes from edamam specifically 
+    # TODO: understand search query parameters to make a get request
+    # there are alot
+    # issue #7 Github    
+    def requestEdamam():
+        pass
+    
+    
