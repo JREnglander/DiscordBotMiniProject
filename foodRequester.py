@@ -3,6 +3,7 @@ import requests
 import os
 from dotenv import load_dotenv
 import json
+import Requester
 
 class foodRequester(Requester):
     def __init__(self) -> None:
