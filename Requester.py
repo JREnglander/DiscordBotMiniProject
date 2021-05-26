@@ -7,9 +7,12 @@ import os
 class Requester:
     def __init__(self) -> None:
         load_dotenv()
+        # this is the key for any api on rapid api
         self.rapidApiKey = os.getenv('RAPID_API_KEY')
     
-    def makeGETRequest(self, apiBaseURL, hostURL, params, codeDictKey):
+    # the following functions are for apis that are hosted on rapid api
+    # might need to have another function for apis not on rapid api
+    def makeGETRequest(self, apiBaseURL: str, hostURL: str, params: dict, codeDictKey: str):
         """
         apiBaseURL: base url to make get requests
         headers: values to add to header of request
@@ -28,18 +31,7 @@ class Requester:
         # since various APIs might call it different things, 
         # we can just input it as a variable in the various requesters
         responseCode = response[codeDictKey]
-        if type(responseCode) == str:
-            responseCode = int(responseCode)
-        
-        if responseCode == 200:
-            return 200, response
-        elif responseCode >= 400:
-            return 400, response
-        elif responseCode >= 500:
-            return 500, response
-        else: 
-            # could not find the response code
-            return 0, response
+        return responseCode, response
         
     
     ## might not need further request types in this stage (post raspberry pi recipe server)
@@ -64,6 +56,6 @@ if __name__ == "__main__":
         "units":"imperial, metric"
     }
 
-    response = req.makeGETRequest(baseURL,hostURL, params=params,codeDictKey='cod')
+    response = req.makeGETRequest(baseURL, hostURL, params=params,codeDictKey='cod')
 
     
