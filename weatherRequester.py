@@ -12,7 +12,7 @@ class weatherRequester:
         self.apiKey = os.getenv('WEATHER_API_KEY')
     
     
-    def requestWeather(self,city='',state='',country=''):
+    def requestWeather(self,city='',state='',country='') -> str:
         """
         Makes a request to the openweathermap api for current weather
         :param city [str] the city to get weather for
@@ -55,5 +55,6 @@ if __name__ == "__main__":
     city = 'London'
     # state = 'GO'
     # country = 'LA'
-    wr.requestWeather(city)
+    response = wr.requestWeather(city)
+    print(response)
     
