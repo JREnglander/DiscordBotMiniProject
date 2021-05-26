@@ -1,8 +1,6 @@
 # this file will access various Recipe APIs
-import requests
 import os
 from dotenv import load_dotenv
-import json
 import Requester
 
 class foodRequester(Requester):
