@@ -15,8 +15,8 @@
 ### Setting up .env file
 1. Create the file in the directory
 2. Add the following key value pairs to the file:
-    DISCORD_TOKEN
-    WEATHER_API_KEY
-    any other keys for api ids or other information
+    <br/> DISCORD_TOKEN
+    <br/> WEATHER_API_KEY
+    <br/> any other keys for api ids or other information <br/>
 3. This file should be kept local to protect values of the keys
 
