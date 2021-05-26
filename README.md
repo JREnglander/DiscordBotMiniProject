@@ -6,11 +6,12 @@
 * Learn about using a raspberry pi for creating a server
 
 ## Set up
-### Python modules to install (Will be updated)
+### Python modules to install (Will be updated with more modules as necessary)
 * discord.py
-* dotenv
+* python-dotenv
 * requests
 * ...
+
 ### Setting up .env file
 1. Create the file in the directory
 2. Add the following key value pairs to the file:
