@@ -32,14 +32,14 @@ class Requester:
             responseCode = int(responseCode)
         
         if responseCode == 200:
-            return response
+            return 200, response
         elif responseCode >= 400:
-            return 400
+            return 400, response
         elif responseCode >= 500:
-            return 500
+            return 500, response
         else: 
             # could not find the response code
-            return 0
+            return 0, response
         
     
     ## might not need further request types in this stage (post raspberry pi recipe server)
