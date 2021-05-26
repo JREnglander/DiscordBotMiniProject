@@ -7,18 +7,26 @@ class foodRequester(Requester):
     def __init__(self) -> None:
         # get all the api keys
         load_dotenv()
-        # for now make separate class attributes per api
-        self.edamamKey = os.getenv('EDAMAM_SEARCH_API_KEY') 
-        self.edamamID = os.getenv('EDAMAM_SEARCH_APP_ID')
+        # make a dictionary of urls with keyValues being name of api
+        self.apiURLs = {
+            "edamam":os.getenv('RAPID_API_EDAMAM_URL'),
+            # ... More to add
+        }
+        # dictionary of the key values
+        self.apiKeys = {
+            "edamam":os.getenv('RAPID_API_EDAMAM_KEY'),
+            # ... More to add
+        }
+        
 
     # get recipes from edamam specifically 
     # TODO: understand search query parameters to make a get request
     # there are alot
     # issue #7 Github    
     def requestEdamam(queryOrId, startIndex, endIndex, 
-                      numIngreds, dietLabel, healthLabel, 
-                      cuisineType, mealType, dishType, 
-                      calories, time, excluded):
+                      numIngreds=0, dietLabel='', healthLabel='', 
+                      cuisineType='', mealType='', dishType='', 
+                      calories=0, time=30, excluded=''):
         """
         queryOrId: the search term to define the request (required)
         all of other parameters are optional:
@@ -40,7 +48,7 @@ class foodRequester(Requester):
         # TODO: excluded should be a list and you generate a string with the list 
         # TODO: generate final URL 
         # TODO: make request
-
+        # TODO: make dicts for params and headers 
         # TODO: create config file for params to keep constant in requests
 
         pass

@@ -6,33 +6,35 @@ import os
 
 class Requester:
     def __init__(self) -> None:
-        pass
+        load_dotenv()
+        self.rapidApiKey = os.getenv('RAPID_API_KEY')
     
-    def makeGETRequest(apiBaseURL, headers=None, params=None, codeDictKey=''):
+    def makeGETRequest(self, apiBaseURL, hostURL, params, codeDictKey):
         """
         apiBaseURL: base url to make get requests
         headers: values to add to header of request
         params: values to add to body of request
         """
         # get the response as a python dictionary
-        response = None
-        if headers == None or params == None:
-            if headers == None:
-                response = json.loads(requests.get(apiBaseURL,params=params))
-            elif params == None:
-                # raise error since request cannot have no params
-                raise noParamsRequestError
-        else:
-            response = json.loads(requests.get(apiBaseURL, headers, params))
+        header = {
+            'x-rapidapi-key': self.rapidApiKey,
+            'x-rapidapi-host': hostURL
+        }
+        response = requests.request("GET", apiBaseURL,headers=header,params=params)
+        print(response.text)
+        response = json.loads(response.text)
         # handle the reaponse code here ideally
         # the codeDictkey is the key in the response dictionary
         # since various APIs might call it different things, 
         # we can just input it as a variable in the various requesters
         responseCode = response[codeDictKey]
+        if type(responseCode) == str:
+            responseCode = int(responseCode)
+        
         if responseCode == 200:
             return response
-        elif responseCode == 404:
-            return 404
+        elif responseCode >= 400:
+            return 400
         elif responseCode >= 500:
             return 500
         else: 
@@ -44,24 +46,24 @@ class Requester:
     def makePOSTRequest():
         pass
 
-class noParamsRequestError(Exception):
-    """
-    Raised when no params are given for a request
-    """
-    pass
-
 if __name__ == "__main__":
     # testing using weather API
     req = Requester()
     load_dotenv()
-    baseURL = os.getenv('WEATHER_URL')
-    apiKey = os.getenv('WEATHER_API_KEY')
+    baseURL = os.getenv('RAPID_API_WEATHER_URL')
     city = 'London'
-    
+    hostURL = os.getenv('RAPID_API_WEATHER_HOST_URL')
+
     params = {
-        'apikey':apiKey,
-        'city' : city
+        "q":"london",
+        "cnt":"1",
+        "mode":"null",
+        "lon":"0",
+        "type":"link, accurate",
+        "lat":"0",
+        "units":"imperial, metric"
     }
-    response =req.makeGETRequest(baseURL,params,'cod')
+
+    response = req.makeGETRequest(baseURL,hostURL, params=params,codeDictKey='cod')
 
     

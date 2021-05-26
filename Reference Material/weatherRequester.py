@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import json
 
+"""THIS CLASS IS DEPRECIATED"""
 class weatherRequester:
     def __init__(self) -> None:
         # get the weather api url
