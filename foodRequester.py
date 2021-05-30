@@ -1,7 +1,7 @@
-# this file will access various Recipe APIs
+# this file will access various APIs
 import os
 from dotenv import load_dotenv
-import Requester
+from Requester import Requester
 
 class foodRequester():
     def __init__(self) -> None:
@@ -10,11 +10,9 @@ class foodRequester():
         self.rapidAPIKey = os.getenv('RAPID_API_KEY')
         # dictionaries containing api urls and host urls from rapid api 
         self.apiURLs = {
-            "edamam":os.getenv('RAPID_API_EDAMAM_URL'),
-            # ... More to add
-        }
-        self.apiHostURLs = {
-            "edamam":os.getenv('RADPID_API_EDAMAM_HOST_URL'),
+            # each key maps to a  list with the first idex containing the api url and
+            # the second containing the host url
+            "edamam": [os.getenv('EDAMAM_URL'), os.getenv('EDAMAM_HOST_URL')],
             # ... More to add
         }
 
@@ -26,8 +24,8 @@ class foodRequester():
         Get the host url and the api url from the class for making requests through rapid api
         Make sure the api and host urls have the same keys for the same api
         """
-        hostURL = self.apiHostURLs[key]
-        apiURL = self.apiURLs[key]
+        hostURL = self.apiURLs[key][1]
+        apiURL = self.apiURLs[key][0]
         return hostURL, apiURL
 
     # get recipes from edamam specifically 
@@ -55,11 +53,18 @@ class foodRequester():
             "q":queryOrId,
             "from": startIndex,
             "to": endIndex,
+            "ingr": numIngreds,
             # ... below will be the other params for when we know how to use each
         }
 
         edamamHURL, edamamAURL = self.getAPIURLs("edamam")
-        code, response = self.requester.makeGETRequest(edamamAURL, edamamHURL, params=params, codeDictKey='code')
-        print(code)
+        response = self.requester.makeGETRequest(edamamAURL, edamamHURL, params=params)
+        # parse the response for a select amopunt of information
+
     
+    
+if __name__ == "__main__":
+    fr = foodRequester()
+    fr.requestEdamam("ham", 10, 10, 6)
+
     
