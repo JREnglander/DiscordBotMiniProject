@@ -1,4 +1,5 @@
 # this file will access various APIs
+from logging import currentframe
 import os
 from dotenv import load_dotenv
 from Requester import Requester
@@ -17,6 +18,11 @@ class foodRequester():
         }
 
         self.requester = Requester()
+
+        # state maintining variables
+        # selected recipe
+        # set this when discord bot calls the api requester
+        self.currentRecipe = None 
     
 
     def getAPIURLs(self, key: str):
@@ -32,6 +38,7 @@ class foodRequester():
     # TODO: understand search query parameters to make a get request
     # there are alot
     # issue #7 Github    
+    # this is called by discord bot to set a current recipe
     def requestEdamam(self, queryOrId, startIndex=0, endIndex=20, 
                       numIngreds=0, dietLabel='', healthLabel='', 
                       cuisineType='', mealType='', dishType='', 
@@ -59,12 +66,24 @@ class foodRequester():
 
         edamamHURL, edamamAURL = self.getAPIURLs("edamam")
         response = self.requester.makeGETRequest(edamamAURL, edamamHURL, params=params)
-        # parse the response for a select amopunt of information
+        
+        # parse the response for a select amount of information
+        # what information do i need:
+        recipe = response['hits'][0]['recipe']
+        self.currentRecipe = {
+            "name": recipe['label'],
+            "ingredients": recipe['ingredients'],
+            "source": recipe['url']
+        }
+    
+    # this is what the discord bot calls to get stuff
+    def getCurrentRecipe(self):
+        return self.currentRecipe
+    
 
-    
-    
+
+
+
 if __name__ == "__main__":
     fr = foodRequester()
-    fr.requestEdamam("ham", 10, 10, 6)
-
-    
+    fr.requestEdamam("ham", 10, 11, 6)
