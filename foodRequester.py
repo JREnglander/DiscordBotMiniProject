@@ -39,7 +39,7 @@ class foodRequester():
     # there are alot
     # issue #7 Github    
     # this is called by discord bot to set a current recipe
-    def requestEdamam(self, queryOrId, startIndex=0, endIndex=20, 
+    def requestEdamam(self, queryOrId: str, startIndex=0, endIndex=20, 
                       numIngreds=0, dietLabel='', healthLabel='', 
                       cuisineType='', mealType='', dishType='', 
                       calories=0, time=30, excluded=''):
@@ -66,7 +66,7 @@ class foodRequester():
 
         edamamHURL, edamamAURL = self.getAPIURLs("edamam")
         response = self.requester.makeGETRequest(edamamAURL, edamamHURL, params=params)
-        
+        print(response['hits'])
         # parse the response for a select amount of information
         # what information do i need:
         recipe = response['hits'][0]['recipe']
